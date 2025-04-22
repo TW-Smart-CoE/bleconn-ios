@@ -65,6 +65,16 @@
 		C5429EB52DB79872008536D1 /* BleConnSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BleConnSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C5429EE12DB7B0F4008536D1 /* Exceptions for "BleConnSample" folder in "BleConnSample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C5429E9E2DB79871008536D1 /* BleConnSample */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C5429E832DB77A49008536D1 /* BleConn */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -78,6 +88,9 @@
 		};
 		C5429EA02DB79871008536D1 /* BleConnSample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C5429EE12DB7B0F4008536D1 /* Exceptions for "BleConnSample" folder in "BleConnSample" target */,
+			);
 			path = BleConnSample;
 			sourceTree = "<group>";
 		};
@@ -682,6 +695,7 @@
 				DEVELOPMENT_TEAM = 693Y5QGLF9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BleConnSample/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -710,6 +724,7 @@
 				DEVELOPMENT_TEAM = 693Y5QGLF9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BleConnSample/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
