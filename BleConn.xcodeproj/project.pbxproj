@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C5429E8D2DB77A49008536D1 /* BleConn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5429E812DB77A49008536D1 /* BleConn.framework */; };
+		C5429EC72DB79897008536D1 /* BleConn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5429E812DB77A49008536D1 /* BleConn.framework */; };
+		C5429EC82DB79897008536D1 /* BleConn.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C5429E812DB77A49008536D1 /* BleConn.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -18,11 +20,49 @@
 			remoteGlobalIDString = C5429E802DB77A49008536D1;
 			remoteInfo = BleConn;
 		};
+		C5429EAC2DB79872008536D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5429E782DB77A49008536D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5429E9E2DB79871008536D1;
+			remoteInfo = BleConnSample;
+		};
+		C5429EB62DB79872008536D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5429E782DB77A49008536D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5429E9E2DB79871008536D1;
+			remoteInfo = BleConnSample;
+		};
+		C5429EC92DB79897008536D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5429E782DB77A49008536D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5429E802DB77A49008536D1;
+			remoteInfo = BleConn;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C5429ECB2DB79897008536D1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C5429EC82DB79897008536D1 /* BleConn.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C5429E812DB77A49008536D1 /* BleConn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BleConn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5429E8C2DB77A49008536D1 /* BleConnTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BleConnTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5429E9F2DB79871008536D1 /* BleConnSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BleConnSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5429EAB2DB79872008536D1 /* BleConnSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BleConnSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5429EB52DB79872008536D1 /* BleConnSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BleConnSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -34,6 +74,21 @@
 		C5429E902DB77A49008536D1 /* BleConnTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BleConnTests;
+			sourceTree = "<group>";
+		};
+		C5429EA02DB79871008536D1 /* BleConnSample */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BleConnSample;
+			sourceTree = "<group>";
+		};
+		C5429EAE2DB79872008536D1 /* BleConnSampleTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BleConnSampleTests;
+			sourceTree = "<group>";
+		};
+		C5429EB82DB79872008536D1 /* BleConnSampleUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BleConnSampleUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -54,6 +109,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C5429E9C2DB79871008536D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5429EC72DB79897008536D1 /* BleConn.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5429EA82DB79872008536D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5429EB22DB79872008536D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -62,6 +139,10 @@
 			children = (
 				C5429E832DB77A49008536D1 /* BleConn */,
 				C5429E902DB77A49008536D1 /* BleConnTests */,
+				C5429EA02DB79871008536D1 /* BleConnSample */,
+				C5429EAE2DB79872008536D1 /* BleConnSampleTests */,
+				C5429EB82DB79872008536D1 /* BleConnSampleUITests */,
+				C5429EC62DB79897008536D1 /* Frameworks */,
 				C5429E822DB77A49008536D1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,8 +152,18 @@
 			children = (
 				C5429E812DB77A49008536D1 /* BleConn.framework */,
 				C5429E8C2DB77A49008536D1 /* BleConnTests.xctest */,
+				C5429E9F2DB79871008536D1 /* BleConnSample.app */,
+				C5429EAB2DB79872008536D1 /* BleConnSampleTests.xctest */,
+				C5429EB52DB79872008536D1 /* BleConnSampleUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C5429EC62DB79897008536D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,6 +225,76 @@
 			productReference = C5429E8C2DB77A49008536D1 /* BleConnTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C5429E9E2DB79871008536D1 /* BleConnSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5429EBD2DB79872008536D1 /* Build configuration list for PBXNativeTarget "BleConnSample" */;
+			buildPhases = (
+				C5429E9B2DB79871008536D1 /* Sources */,
+				C5429E9C2DB79871008536D1 /* Frameworks */,
+				C5429E9D2DB79871008536D1 /* Resources */,
+				C5429ECB2DB79897008536D1 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C5429ECA2DB79897008536D1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C5429EA02DB79871008536D1 /* BleConnSample */,
+			);
+			name = BleConnSample;
+			packageProductDependencies = (
+			);
+			productName = BleConnSample;
+			productReference = C5429E9F2DB79871008536D1 /* BleConnSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C5429EAA2DB79872008536D1 /* BleConnSampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5429EC02DB79872008536D1 /* Build configuration list for PBXNativeTarget "BleConnSampleTests" */;
+			buildPhases = (
+				C5429EA72DB79872008536D1 /* Sources */,
+				C5429EA82DB79872008536D1 /* Frameworks */,
+				C5429EA92DB79872008536D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C5429EAD2DB79872008536D1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C5429EAE2DB79872008536D1 /* BleConnSampleTests */,
+			);
+			name = BleConnSampleTests;
+			packageProductDependencies = (
+			);
+			productName = BleConnSampleTests;
+			productReference = C5429EAB2DB79872008536D1 /* BleConnSampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C5429EB42DB79872008536D1 /* BleConnSampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5429EC32DB79872008536D1 /* Build configuration list for PBXNativeTarget "BleConnSampleUITests" */;
+			buildPhases = (
+				C5429EB12DB79872008536D1 /* Sources */,
+				C5429EB22DB79872008536D1 /* Frameworks */,
+				C5429EB32DB79872008536D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C5429EB72DB79872008536D1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C5429EB82DB79872008536D1 /* BleConnSampleUITests */,
+			);
+			name = BleConnSampleUITests;
+			packageProductDependencies = (
+			);
+			productName = BleConnSampleUITests;
+			productReference = C5429EB52DB79872008536D1 /* BleConnSampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -149,6 +310,17 @@
 					};
 					C5429E8B2DB77A49008536D1 = {
 						CreatedOnToolsVersion = 16.3;
+					};
+					C5429E9E2DB79871008536D1 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					C5429EAA2DB79872008536D1 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = C5429E9E2DB79871008536D1;
+					};
+					C5429EB42DB79872008536D1 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = C5429E9E2DB79871008536D1;
 					};
 				};
 			};
@@ -168,6 +340,9 @@
 			targets = (
 				C5429E802DB77A49008536D1 /* BleConn */,
 				C5429E8B2DB77A49008536D1 /* BleConnTests */,
+				C5429E9E2DB79871008536D1 /* BleConnSample */,
+				C5429EAA2DB79872008536D1 /* BleConnSampleTests */,
+				C5429EB42DB79872008536D1 /* BleConnSampleUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -181,6 +356,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C5429E8A2DB77A49008536D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5429E9D2DB79871008536D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5429EA92DB79872008536D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5429EB32DB79872008536D1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -204,6 +400,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C5429E9B2DB79871008536D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5429EA72DB79872008536D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5429EB12DB79872008536D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -211,6 +428,21 @@
 			isa = PBXTargetDependency;
 			target = C5429E802DB77A49008536D1 /* BleConn */;
 			targetProxy = C5429E8E2DB77A49008536D1 /* PBXContainerItemProxy */;
+		};
+		C5429EAD2DB79872008536D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5429E9E2DB79871008536D1 /* BleConnSample */;
+			targetProxy = C5429EAC2DB79872008536D1 /* PBXContainerItemProxy */;
+		};
+		C5429EB72DB79872008536D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5429E9E2DB79871008536D1 /* BleConnSample */;
+			targetProxy = C5429EB62DB79872008536D1 /* PBXContainerItemProxy */;
+		};
+		C5429ECA2DB79897008536D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5429E802DB77A49008536D1 /* BleConn */;
+			targetProxy = C5429EC92DB79897008536D1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -440,6 +672,134 @@
 			};
 			name = Release;
 		};
+		C5429EBE2DB79872008536D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 693Y5QGLF9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtworks.bleconn.BleConnSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C5429EBF2DB79872008536D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 693Y5QGLF9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtworks.bleconn.BleConnSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C5429EC12DB79872008536D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 693Y5QGLF9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtworks.bleconn.BleConnSampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BleConnSample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BleConnSample";
+			};
+			name = Debug;
+		};
+		C5429EC22DB79872008536D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 693Y5QGLF9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtworks.bleconn.BleConnSampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BleConnSample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BleConnSample";
+			};
+			name = Release;
+		};
+		C5429EC42DB79872008536D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 693Y5QGLF9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtworks.bleconn.BleConnSampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BleConnSample;
+			};
+			name = Debug;
+		};
+		C5429EC52DB79872008536D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 693Y5QGLF9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtworks.bleconn.BleConnSampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BleConnSample;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -466,6 +826,33 @@
 			buildConfigurations = (
 				C5429E992DB77A49008536D1 /* Debug */,
 				C5429E9A2DB77A49008536D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5429EBD2DB79872008536D1 /* Build configuration list for PBXNativeTarget "BleConnSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5429EBE2DB79872008536D1 /* Debug */,
+				C5429EBF2DB79872008536D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5429EC02DB79872008536D1 /* Build configuration list for PBXNativeTarget "BleConnSampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5429EC12DB79872008536D1 /* Debug */,
+				C5429EC22DB79872008536D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5429EC32DB79872008536D1 /* Build configuration list for PBXNativeTarget "BleConnSampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5429EC42DB79872008536D1 /* Debug */,
+				C5429EC52DB79872008536D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
