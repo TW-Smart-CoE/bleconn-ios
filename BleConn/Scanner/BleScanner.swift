@@ -16,6 +16,8 @@ public class BleScanner: NSObject, CBCentralManagerDelegate {
   }
 
   public func start(
+    filters: [CBUUID]?,
+    options: [String: Any]?,
     onFound: @escaping (CBPeripheral, [String: Any], NSNumber) -> Void,
     onError: @escaping (Error?) -> Void
   ) -> Bool {
@@ -26,7 +28,7 @@ public class BleScanner: NSObject, CBCentralManagerDelegate {
 
     self.onFound = onFound
     self.onError = onError
-    centralManager.scanForPeripherals(withServices: nil, options: nil)
+    centralManager.scanForPeripherals(withServices: filters, options: options)
     isScanning = true
     return true
   }
