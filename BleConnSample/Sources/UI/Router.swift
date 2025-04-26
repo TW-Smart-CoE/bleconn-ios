@@ -16,15 +16,4 @@ class Router: ObservableObject {
   func popToRoot() {
     path.removeLast(path.count)
   }
-
-  func destinations(for route: AppRoute) -> some View {
-    switch route {
-    case .bleScanner:
-      AnyView(BleScannerView())
-    case .bleServer:
-      AnyView(BleServerView())
-    case .bleClient:
-      fatalError("BLE Client View is not implemented yet.")
-    }
-  }
 }

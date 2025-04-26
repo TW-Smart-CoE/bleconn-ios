@@ -2,6 +2,9 @@ import Foundation
 import Combine
 
 class SelectViewModel: MVIViewModel {
+  typealias S = SelectState
+  typealias A = SelectAction
+
   @Published var viewState: SelectState
 
   var router: Router
@@ -15,8 +18,7 @@ class SelectViewModel: MVIViewModel {
   }
 
   func reduce(currentState: SelectState, action: SelectAction) -> SelectState {
-    var newState = currentState
-    return newState
+    return currentState
   }
   
   func runSideEffect(action: SelectAction, currentState: SelectState) {

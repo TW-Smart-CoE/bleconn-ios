@@ -30,7 +30,14 @@ struct SelectView: View {
       }
       .padding(.horizontal, 16)
       .navigationDestination(for: AppRoute.self) { route in
-        viewModel.router.destinations(for: route)
+        switch route {
+        case .bleScanner:
+          AnyView(BleScannerView(viewModel: .init(router: viewModel.router)))
+        case .bleServer:
+          AnyView(BleServerView())
+        default:
+          fatalError("Not support")
+        }
       }
       .navigationTitle("BleConn")
       .environmentObject(viewModel.router)
