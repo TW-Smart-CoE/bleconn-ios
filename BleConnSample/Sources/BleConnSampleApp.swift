@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct BleConnSampleApp: App {
+  @StateObject private var router = Router()
+
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      SelectView(viewModel: .init(router: router))
     }
   }
 }

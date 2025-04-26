@@ -70,20 +70,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				Sources/Foundation/MVI/Action.swift,
-				Sources/Foundation/MVI/MVIViewModel.swift,
-				Sources/Foundation/MVI/ViewState.swift,
 			);
 			target = C5429E9E2DB79871008536D1 /* BleConnSample */;
-		};
-		C5D5BBC42DB7BF4300437D83 /* Exceptions for "BleConnSample" folder in "BleConn" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Sources/Foundation/MVI/Action.swift,
-				Sources/Foundation/MVI/MVIViewModel.swift,
-				Sources/Foundation/MVI/ViewState.swift,
-			);
-			target = C5429E802DB77A49008536D1 /* BleConn */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -101,7 +89,6 @@
 		C5429EA02DB79871008536D1 /* BleConnSample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C5D5BBC42DB7BF4300437D83 /* Exceptions for "BleConnSample" folder in "BleConn" target */,
 				C5429EE12DB7B0F4008536D1 /* Exceptions for "BleConnSample" folder in "BleConnSample" target */,
 			);
 			path = BleConnSample;
