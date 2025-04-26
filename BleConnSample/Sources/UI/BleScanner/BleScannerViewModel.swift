@@ -8,38 +8,34 @@ class BleScannerViewModel: MVIViewModel {
   typealias A = BleScannerAction
 
   @Published var viewState: BleScannerState
-  var router: Router
   private let bleScanner: BleScanner = .init()
 
   init(
     initialState: BleScannerState = BleScannerState(),
-    router: Router
   ) {
     self.viewState = initialState
-    self.router = router
   }
 
   func reduce(currentState: BleScannerState, action: BleScannerAction) -> BleScannerState {
     var newState = currentState
     switch action {
-    case .startScan,
-        .stopScan:
-      break
     case let .onScanningStatusChanged(result):
       newState.isScanning = result
+    default:
+      break
     }
+
     return newState
   }
 
   func runSideEffect(action: BleScannerAction, currentState: BleScannerState) {
     switch action {
-    case .onScanningStatusChanged:
-      break
     case .startScan:
       startScan()
     case .stopScan:
       stopScan()
-
+    default:
+      break
     }
   }
 
@@ -47,10 +43,11 @@ class BleScannerViewModel: MVIViewModel {
     let started = bleScanner.start(
       filters: [BleUUID.SERVICE],
       options: [CBCentralManagerScanOptionAllowDuplicatesKey: true],
-      onFound: { peripheral, advertisementData, rssi in
-        let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data
+      onFound: { scanResult in
+        let manufacturerData = scanResult.advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data
         let manufacturerInfo = manufacturerData?.map { String(format: "%02x", $0) }.joined() ?? "Unknown"
-        print("Found device: \(peripheral.name ?? "Unknown") - RSSI: \(rssi) - Manufacturer: \(manufacturerInfo)")
+        print("Found device: \(scanResult.peripheral.name ?? "Unknown") - RSSI: \(scanResult.rssi) - Manufacturer: \(manufacturerInfo)")
+        self.dispatch(action: .onFoundDevice(scanResult))
       },
       onError: { error in
         print("Error: \(error?.localizedDescription ?? "Unknown error")")
@@ -60,6 +57,7 @@ class BleScannerViewModel: MVIViewModel {
   }
 
   private func stopScan() {
+    guard viewState.isScanning else { return }
     bleScanner.stop()
     dispatch(action: .onScanningStatusChanged(false))
   }

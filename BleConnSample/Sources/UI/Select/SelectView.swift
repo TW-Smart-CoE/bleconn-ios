@@ -32,7 +32,7 @@ struct SelectView: View {
       .navigationDestination(for: AppRoute.self) { route in
         switch route {
         case .bleScanner:
-          AnyView(BleScannerView(viewModel: .init(router: viewModel.router)))
+          AnyView(BleScannerView(viewModel: .init()))
         case .bleServer:
           AnyView(BleServerView())
         default:

@@ -1,4 +1,3 @@
-import CoreBluetooth
 import SwiftUI
 import BleConn
 
@@ -36,5 +35,8 @@ struct BleScannerView: View {
     }
     .padding(16)
     .navigationTitle("BleScanner")
+    .onDisappear {
+      viewModel.dispatch(action: .stopScan)
+    }
   }
 }

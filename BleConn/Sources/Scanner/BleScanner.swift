@@ -1,9 +1,15 @@
 import CoreBluetooth
 
+public struct ScanResult {
+  public let peripheral: CBPeripheral
+  public let advertisementData: [String: Any]
+  public let rssi: NSNumber
+}
+
 public class BleScanner: NSObject, CBCentralManagerDelegate {
   private var centralManager: CBCentralManager!
   private var isScanning = false
-  private var onFound: ((CBPeripheral, [String: Any], NSNumber) -> Void)?
+  private var onFound: ((ScanResult) -> Void)?
   private var onError: ((Error?) -> Void)?
 
   public override init() {
@@ -18,7 +24,7 @@ public class BleScanner: NSObject, CBCentralManagerDelegate {
   public func start(
     filters: [CBUUID]?,
     options: [String: Any]?,
-    onFound: @escaping (CBPeripheral, [String: Any], NSNumber) -> Void,
+    onFound: @escaping (ScanResult) -> Void,
     onError: @escaping (Error?) -> Void
   ) -> Bool {
     guard centralManager.state == .poweredOn else {
@@ -53,6 +59,10 @@ public class BleScanner: NSObject, CBCentralManagerDelegate {
     advertisementData: [String: Any],
     rssi RSSI: NSNumber
   ) {
-    onFound?(peripheral, advertisementData, RSSI)
+    onFound?(.init(
+      peripheral: peripheral,
+      advertisementData: advertisementData,
+      rssi: RSSI)
+    )
   }
 }
