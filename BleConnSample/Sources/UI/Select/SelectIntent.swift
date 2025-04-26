@@ -1,10 +1,10 @@
 import Foundation
 
 struct SelectState: ViewState {
-    var placeholder: String = ""
+  var placeholder: String = ""
 }
 
 enum SelectAction: Action {
-    case clickBleServer
-    case clickBleScanner
+  case clickBleServer
+  case clickBleScanner
 }

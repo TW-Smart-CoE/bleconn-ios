@@ -27,5 +27,6 @@ struct BleScannerView: View {
       //        }
       //        .padding()
     }
+    .navigationTitle("BleScanner")
   }
 }

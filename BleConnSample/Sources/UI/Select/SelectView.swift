@@ -30,7 +30,7 @@ struct SelectView: View {
       }
       .padding(.horizontal, 16)
       .navigationDestination(for: AppRoute.self) { route in
-        BleScannerView()
+        viewModel.router.destinations(for: route)
       }
       .navigationTitle("BleConn")
       .environmentObject(viewModel.router)

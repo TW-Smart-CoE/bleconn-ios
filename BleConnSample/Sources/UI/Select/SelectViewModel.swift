@@ -22,6 +22,7 @@ class SelectViewModel: MVIViewModel {
   func runSideEffect(action: SelectAction, currentState: SelectState) {
     switch action {
     case .clickBleServer:
+      router.navigate(to: AppRoute.bleServer)
       break
     case .clickBleScanner:
       router.navigate(to: AppRoute.bleScanner)
