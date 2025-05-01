@@ -28,7 +28,8 @@ struct SelectView: View {
             .cornerRadius(8)
         }
       }
-      .padding(.horizontal, 16)
+      .padding(16)
+      .frame(maxHeight: .infinity, alignment: .top)
       .navigationDestination(for: AppRoute.self) { route in
         switch route {
         case .bleScanner:
