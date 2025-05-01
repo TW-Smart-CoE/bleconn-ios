@@ -8,12 +8,21 @@ class BleScannerViewModel: MVIViewModel {
   typealias A = BleScannerAction
 
   @Published var viewState: BleScannerState
-  private let bleClient: BleClient = .init()
+
+  private let TAG = "BleScannerViewModel"
+
+  private let logger: Logger
+  private let router: Router
+  private let bleClient: BleClient
 
   init(
     initialState: BleScannerState = BleScannerState(),
+    dependency: Dependency
   ) {
     self.viewState = initialState
+    self.logger = dependency.logger
+    self.router = dependency.router
+    self.bleClient = dependency.bleClient
   }
 
   func reduce(currentState: BleScannerState, action: BleScannerAction) -> BleScannerState {
@@ -54,11 +63,14 @@ class BleScannerViewModel: MVIViewModel {
       onFound: { scanResult in
         let manufacturerData = scanResult.advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data
         let manufacturerInfo = manufacturerData?.map { String(format: "%02x", $0) }.joined() ?? "Unknown"
-        print("Found device: \(scanResult.peripheral.name ?? "Unknown") - RSSI: \(scanResult.rssi) - Manufacturer: \(manufacturerInfo)")
+        self.logger.debug(
+          tag: self.TAG,
+          message: "Found device: \(scanResult.peripheral.name ?? "Unknown") - RSSI: \(scanResult.rssi) - Manufacturer: \(manufacturerInfo)"
+        )
         self.dispatch(action: .onFoundDevice(scanResult))
       },
       onError: { error in
-        print("Error: \(error?.localizedDescription ?? "Unknown error")")
+        self.logger.error(tag: TAG, message: "Error: \(error?.localizedDescription ?? "Unknown error")")
       }
     )
     dispatch(action: .onScanningStatusChanged(started))

@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct SelectView: View {
+  @EnvironmentObject var dependency: DependencyImpl
   @ObservedObject var viewModel: SelectViewModel
 
   var body: some View {
-    NavigationStack(path: $viewModel.router.path) {
+    NavigationStack(path: $dependency.router.path) {
       VStack(spacing: 16) {
         Button(action: {
           viewModel.dispatch(action: .clickBleServer)
@@ -33,7 +34,7 @@ struct SelectView: View {
       .navigationDestination(for: AppRoute.self) { route in
         switch route {
         case .bleScanner:
-          AnyView(BleScannerView(viewModel: .init()))
+          AnyView(BleScannerView(viewModel: .init(dependency: dependency)))
         case .bleServer:
           AnyView(BleServerView())
         default:
@@ -41,11 +42,6 @@ struct SelectView: View {
         }
       }
       .navigationTitle("BleConn")
-      .environmentObject(viewModel.router)
     }
   }
-}
-
-#Preview {
-  SelectView(viewModel: .init(router: .init()))
 }

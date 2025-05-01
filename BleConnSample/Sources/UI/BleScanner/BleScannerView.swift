@@ -2,7 +2,6 @@ import SwiftUI
 import BleConn
 
 struct BleScannerView: View {
-  @EnvironmentObject private var router: Router
   @ObservedObject var viewModel: BleScannerViewModel
 
   var body: some View {

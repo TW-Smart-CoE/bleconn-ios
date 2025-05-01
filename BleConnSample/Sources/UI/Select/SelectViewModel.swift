@@ -7,14 +7,14 @@ class SelectViewModel: MVIViewModel {
 
   @Published var viewState: SelectState
 
-  var router: Router
+  private var router: Router
 
   init(
     initialState: SelectState = SelectState(),
-    router: Router
+    dependency: Dependency
   ) {
     self.viewState = initialState
-    self.router = router
+    self.router = dependency.router
   }
 
   func reduce(currentState: SelectState, action: SelectAction) -> SelectState {
