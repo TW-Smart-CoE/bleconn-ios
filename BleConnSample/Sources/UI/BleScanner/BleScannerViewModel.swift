@@ -8,7 +8,7 @@ class BleScannerViewModel: MVIViewModel {
   typealias A = BleScannerAction
 
   @Published var viewState: BleScannerState
-  private let bleScanner: BleScanner = .init()
+  private let bleClient: BleClient = .init()
 
   init(
     initialState: BleScannerState = BleScannerState(),
@@ -21,8 +21,14 @@ class BleScannerViewModel: MVIViewModel {
     switch action {
     case let .onScanningStatusChanged(result):
       newState.isScanning = result
+      if !result {
+        newState.scanResults = []
+      }
     case let .onFoundDevice(scanResult):
       newState.scanResults = buildNewScanResults(currentResults: currentState.scanResults, newResult: scanResult)
+    case .stopScan:
+      newState.isScanning = false
+      newState.scanResults = []
     default:
       break
     }
@@ -42,7 +48,7 @@ class BleScannerViewModel: MVIViewModel {
   }
 
   private func startScan() {
-    let started = bleScanner.start(
+    let started = bleClient.startScan(
       filters: [BleUUID.SERVICE],
       options: [CBCentralManagerScanOptionAllowDuplicatesKey: true],
       onFound: { scanResult in
@@ -59,8 +65,7 @@ class BleScannerViewModel: MVIViewModel {
   }
 
   private func stopScan() {
-    guard viewState.isScanning else { return }
-    bleScanner.stop()
+    bleClient.stopScan()
     dispatch(action: .onScanningStatusChanged(false))
   }
 
