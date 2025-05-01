@@ -37,8 +37,8 @@ struct SelectView: View {
           AnyView(BleScannerView(viewModel: .init(dependency: dependency)))
         case .bleServer:
           AnyView(BleServerView())
-        default:
-          fatalError("Not support")
+        case .bleClient:
+          AnyView(BleClientView())
         }
       }
       .navigationTitle("BleConn")

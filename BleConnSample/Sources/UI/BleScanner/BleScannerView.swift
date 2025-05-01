@@ -31,25 +31,30 @@ struct BleScannerView: View {
       }
       .disabled(!viewModel.viewState.isScanning)
       .opacity(!viewModel.viewState.isScanning ? 0.5 : 1.0)
+
+      List(viewModel.viewState.scanResults, id: \.peripheral.identifier) { scanResult in
+        Button(action: {
+          viewModel.dispatch(action: .connectToDevice(scanResult.peripheral))
+        }) {
+          VStack(alignment: .leading, spacing: 8) {
+            Text("Name: \(scanResult.peripheral.name ?? "Unknown")")
+              .font(.headline)
+            Text("RSSI: \(scanResult.rssi)")
+              .font(.subheadline)
+            Text("Manufacturer: \(scanResult.manufacturerInfo ?? "Unknown")")
+              .font(.subheadline)
+          }
+          .padding()
+          .cornerRadius(8)
+        }
+        .buttonStyle(PlainButtonStyle())
+      }.cornerRadius(8)
     }
     .padding(16)
     .frame(alignment: .top)
     .navigationTitle("BleScanner")
     .onDisappear {
       viewModel.dispatch(action: .stopScan)
-    }
-    
-    List(viewModel.viewState.scanResults, id: \.peripheral.identifier) { scanResult in
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Name: \(scanResult.peripheral.name ?? "Unknown")")
-          .font(.headline)
-        Text("RSSI: \(scanResult.rssi)")
-          .font(.subheadline)
-        Text("Manufacturer: \(scanResult.manufacturerInfo ?? "Unknown")")
-          .font(.subheadline)
-      }
-      .padding()
-      .cornerRadius(8)
     }
   }
 }

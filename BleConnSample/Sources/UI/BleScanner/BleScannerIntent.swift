@@ -12,5 +12,5 @@ enum BleScannerAction: Action {
   case stopScan
   case onScanningStatusChanged(_ result: Bool)
   case onFoundDevice(_ scanResult: ScanResult)
-  case onConnectToDevice(_ peripheral: CBPeripheral)
+  case connectToDevice(_ peripheral: CBPeripheral)
 }
