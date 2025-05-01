@@ -8,6 +8,7 @@ struct BleScannerView: View {
     VStack(spacing: 16) {
       startScan
       stopScan
+      testClient
       scanResults
     }
     .padding(16)
@@ -15,6 +16,19 @@ struct BleScannerView: View {
     .navigationTitle("BleScanner")
     .onDisappear {
       viewModel.dispatch(action: .stopScan)
+    }
+  }
+
+  private var testClient: some View {
+    Button(action: {
+      viewModel.dispatch(action: .testClient)
+    }) {
+      Text("Test BlE Client")
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(Color.blue)
+        .foregroundColor(.white)
+        .cornerRadius(8)
     }
   }
 
