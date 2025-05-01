@@ -67,10 +67,15 @@ class BleScannerViewModel: MVIViewModel {
           tag: self.TAG,
           message: "Found device: \(scanResult.peripheral.name ?? "Unknown") - RSSI: \(scanResult.rssi) - Manufacturer: \(manufacturerInfo)"
         )
-        self.dispatch(action: .onFoundDevice(scanResult))
+
+        DispatchQueue.main.async {
+          self.dispatch(action: .onFoundDevice(scanResult))
+        }
       },
       onError: { error in
-        self.logger.error(tag: TAG, message: "Error: \(error?.localizedDescription ?? "Unknown error")")
+        DispatchQueue.main.async {
+          self.logger.error(tag: self.TAG, message: "Error: \(error?.localizedDescription ?? "Unknown error")")
+        }
       }
     )
     dispatch(action: .onScanningStatusChanged(started))

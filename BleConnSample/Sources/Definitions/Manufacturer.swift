@@ -1,10 +1,3 @@
-//
-//  Manufacturer.swift
-//  BleConnSample
-//
-//  Created by Jie Meng on 2025/4/26.
-//
-
 import Foundation
 
 struct Manufacturer {

@@ -6,9 +6,11 @@ class DependencyImpl: Dependency, ObservableObject {
   var router: Router
   let bleClient: BleClient
 
+  private let bluetoothQueue = DispatchQueue(label: "com.thoughtworks.bleconn")
+
   init() {
     self.logger = DefaultLogger()
     self.router = Router()
-    self.bleClient = BleClient(logger: logger)
+    self.bleClient = BleClient(logger: logger, queue: bluetoothQueue)
   }
 }
