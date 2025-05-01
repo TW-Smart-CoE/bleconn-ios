@@ -21,6 +21,8 @@ class BleScannerViewModel: MVIViewModel {
     switch action {
     case let .onScanningStatusChanged(result):
       newState.isScanning = result
+    case let .onFoundDevice(scanResult):
+      newState.scanResults = buildNewScanResults(currentResults: currentState.scanResults, newResult: scanResult)
     default:
       break
     }
@@ -60,5 +62,20 @@ class BleScannerViewModel: MVIViewModel {
     guard viewState.isScanning else { return }
     bleScanner.stop()
     dispatch(action: .onScanningStatusChanged(false))
+  }
+
+  private func buildNewScanResults(currentResults: [ScanResult], newResult: ScanResult) -> [ScanResult] {
+    var updatedResults = currentResults
+
+    if let index = updatedResults.firstIndex(where: { existingResult in
+      existingResult.peripheral.identifier == newResult.peripheral.identifier &&
+      existingResult.manufacturerData == newResult.manufacturerData
+    }) {
+      updatedResults[index] = newResult
+    } else {
+      updatedResults.append(newResult)
+    }
+
+    return updatedResults
   }
 }

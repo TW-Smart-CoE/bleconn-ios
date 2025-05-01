@@ -4,6 +4,7 @@ import BleConn
 
 struct BleScannerState: ViewState {
   var isScanning: Bool = false
+  var scanResults: [ScanResult] = []
 }
 
 enum BleScannerAction: Action {

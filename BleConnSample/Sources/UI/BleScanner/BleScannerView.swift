@@ -38,5 +38,19 @@ struct BleScannerView: View {
     .onDisappear {
       viewModel.dispatch(action: .stopScan)
     }
+    
+    List(viewModel.viewState.scanResults, id: \.peripheral.identifier) { scanResult in
+      VStack(alignment: .leading, spacing: 8) {
+        Text("Name: \(scanResult.peripheral.name ?? "Unknown")")
+          .font(.headline)
+        Text("RSSI: \(scanResult.rssi)")
+          .font(.subheadline)
+        Text("Manufacturer: \(scanResult.manufacturerInfo ?? "Unknown")")
+          .font(.subheadline)
+      }
+      .padding()
+      .background(Color.gray.opacity(0.1))
+      .cornerRadius(8)
+    }
   }
 }
