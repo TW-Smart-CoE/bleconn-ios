@@ -7,27 +7,7 @@ struct SelectView: View {
   var body: some View {
     NavigationStack(path: $dependency.router.path) {
       VStack(spacing: 16) {
-        Button(action: {
-          viewModel.dispatch(action: .clickBleServer)
-        }) {
-          Text("BLE Server")
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(8)
-        }
-
-        Button(action: {
-          viewModel.dispatch(action: .clickBleScanner)
-        }) {
-          Text("BLE Scanner")
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(8)
-        }
+        bleScanner
       }
       .padding(16)
       .frame(maxHeight: .infinity, alignment: .top)
@@ -42,6 +22,32 @@ struct SelectView: View {
         }
       }
       .navigationTitle("BleConn")
+    }
+  }
+
+  private var bleServer: some View {
+    Button(action: {
+      viewModel.dispatch(action: .clickBleServer)
+    }) {
+      Text("BLE Server")
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(Color.blue)
+        .foregroundColor(.white)
+        .cornerRadius(8)
+    }
+  }
+
+  private var bleScanner: some View {
+    Button(action: {
+      viewModel.dispatch(action: .clickBleScanner)
+    }) {
+      Text("BLE Scanner")
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(Color.blue)
+        .foregroundColor(.white)
+        .cornerRadius(8)
     }
   }
 }
