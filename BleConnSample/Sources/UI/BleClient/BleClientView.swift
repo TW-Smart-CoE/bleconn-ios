@@ -3,8 +3,6 @@ import SwiftUI
 import BleConn
 
 struct BleClientView: View {
-  @EnvironmentObject private var router: Router
-
   @State private var isConnected: Bool = false
   @State private var mtu: Int = 0
   @State private var notification: String = ""

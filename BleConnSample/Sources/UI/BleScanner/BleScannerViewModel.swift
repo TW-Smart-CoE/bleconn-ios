@@ -17,12 +17,13 @@ class BleScannerViewModel: MVIViewModel {
 
   init(
     initialState: BleScannerState = BleScannerState(),
-    dependency: Dependency
+    dependency: Dependency,
+    router: Router
   ) {
     self.viewState = initialState
     self.logger = dependency.logger
-    self.router = dependency.router
     self.bleClient = dependency.bleClient
+    self.router = router
   }
 
   func reduce(currentState: BleScannerState, action: BleScannerAction) -> BleScannerState {

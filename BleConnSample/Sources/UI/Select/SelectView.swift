@@ -2,10 +2,11 @@ import SwiftUI
 
 struct SelectView: View {
   @EnvironmentObject var dependency: DependencyImpl
+  @EnvironmentObject var router: Router
   @ObservedObject var viewModel: SelectViewModel
 
   var body: some View {
-    NavigationStack(path: $dependency.router.path) {
+    NavigationStack(path: $router.path) {
       VStack(spacing: 16) {
         bleScanner
       }
@@ -14,7 +15,7 @@ struct SelectView: View {
       .navigationDestination(for: AppRoute.self) { route in
         switch route {
         case .bleScanner:
-          AnyView(BleScannerView(viewModel: .init(dependency: dependency)))
+          AnyView(BleScannerView(viewModel: .init(dependency: dependency, router: router)))
         case .bleServer:
           AnyView(BleServerView())
         case .bleClient:
