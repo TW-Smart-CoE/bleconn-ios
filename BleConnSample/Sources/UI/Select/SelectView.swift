@@ -3,7 +3,11 @@ import SwiftUI
 struct SelectView: View {
   @EnvironmentObject var dependency: DependencyImpl
   @EnvironmentObject var router: Router
-  @ObservedObject var viewModel: SelectViewModel
+  @StateObject var viewModel: SelectViewModel
+
+  init(dependency: Dependency, router: Router) {
+    _viewModel = StateObject(wrappedValue: SelectViewModel(dependency: dependency, router: router))
+  }
 
   var body: some View {
     NavigationStack(path: $router.path) {
@@ -23,11 +27,11 @@ struct SelectView: View {
     switch route {
     case .bleScanner:
       print("Navigating to BleScannerView")
-      return AnyView(BleScannerView(viewModel: .init(dependency: dependency, router: router)))
+      return AnyView(BleScannerView(dependency: dependency, router: router))
     case .bleServer:
       return AnyView(BleServerView())
     case .bleClient(let peripheralId):
-      return AnyView(BleClientView(viewModel: .init(dependency: dependency, peripheralId: peripheralId)))
+      return AnyView(BleClientView(dependency: dependency, peripheralId: peripheralId))
     }
   }
 

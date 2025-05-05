@@ -7,9 +7,9 @@ struct BleConnSampleApp: App {
 
   var body: some Scene {
     WindowGroup {
-      SelectView(viewModel: .init(dependency: dependency, router: router))
-        .environmentObject(dependency)
-        .environmentObject(router)
+      SelectView(dependency: dependency, router: router)
     }
+    .environmentObject(dependency)
+    .environmentObject(router)
   }
 }

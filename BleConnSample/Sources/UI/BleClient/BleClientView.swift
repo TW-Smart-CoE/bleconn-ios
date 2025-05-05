@@ -3,7 +3,11 @@ import SwiftUI
 import BleConn
 
 struct BleClientView: View {
-  @ObservedObject var viewModel: BleClientViewModel
+  @StateObject var viewModel: BleClientViewModel
+
+  init(dependency: Dependency, peripheralId: UUID) {
+    _viewModel = StateObject(wrappedValue: BleClientViewModel(dependency: dependency, peripheralId: peripheralId))
+  }
 
   var body: some View {
     VStack(spacing: 16) {
