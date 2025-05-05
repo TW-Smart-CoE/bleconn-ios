@@ -13,16 +13,21 @@ struct SelectView: View {
       .padding(16)
       .frame(maxHeight: .infinity, alignment: .top)
       .navigationDestination(for: AppRoute.self) { route in
-        switch route {
-        case .bleScanner:
-          AnyView(BleScannerView(viewModel: .init(dependency: dependency, router: router)))
-        case .bleServer:
-          AnyView(BleServerView())
-        case .bleClient(let peripheralId):
-          AnyView(BleClientView(viewModel: .init(dependency: dependency, peripheralId: peripheralId)))
-        }
+        destinationView(for: route)
       }
       .navigationTitle("BleConn")
+    }
+  }
+
+  private func destinationView(for route: AppRoute) -> AnyView {
+    switch route {
+    case .bleScanner:
+      print("Navigating to BleScannerView")
+      return AnyView(BleScannerView(viewModel: .init(dependency: dependency, router: router)))
+    case .bleServer:
+      return AnyView(BleServerView())
+    case .bleClient(let peripheralId):
+      return AnyView(BleClientView(viewModel: .init(dependency: dependency, peripheralId: peripheralId)))
     }
   }
 

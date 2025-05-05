@@ -29,6 +29,7 @@ class SelectViewModel: MVIViewModel {
       router.navigate(to: AppRoute.bleServer)
       break
     case .clickBleScanner:
+      print("clickBleScanner")
       router.navigate(to: AppRoute.bleScanner)
     }
   }
