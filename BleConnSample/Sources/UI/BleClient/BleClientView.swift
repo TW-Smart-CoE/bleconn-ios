@@ -29,6 +29,7 @@ struct BleClientView: View {
     }) {
       Text("Discover Services")
         .frame(maxWidth: .infinity)
+        .padding()
     }
     .buttonStyle(.borderedProminent)
   }
@@ -39,6 +40,7 @@ struct BleClientView: View {
     }) {
       Text("Read Device Info")
         .frame(maxWidth: .infinity)
+        .padding()
     }
     .buttonStyle(.borderedProminent)
   }
@@ -49,6 +51,7 @@ struct BleClientView: View {
     }) {
       Text("Write WiFi Config")
         .frame(maxWidth: .infinity)
+        .padding()
     }
     .buttonStyle(.borderedProminent)
   }
@@ -62,6 +65,7 @@ struct BleClientView: View {
       Button(action: {
       }) {
         Text("Request MTU")
+          .padding()
       }
       .buttonStyle(.borderedProminent)
     }
