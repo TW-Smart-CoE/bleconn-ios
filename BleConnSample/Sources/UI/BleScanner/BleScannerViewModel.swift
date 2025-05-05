@@ -56,9 +56,7 @@ class BleScannerViewModel: MVIViewModel {
       stopScan()
       logger.debug(tag: TAG, message: "Connecting to device: \(peripheral.name ?? "Unknown")")
       print("Current path: \(router.path)")
-      router.navigate(to: AppRoute.bleClient)
-    case .testClient:
-      router.navigate(to: AppRoute.bleClient)
+      router.navigate(to: AppRoute.bleClient(peripheralId: peripheral.identifier))
     default:
       break
     }

@@ -1,4 +1,3 @@
-import Foundation
 import CoreBluetooth
 import BleConn
 
@@ -10,7 +9,6 @@ struct BleScannerState: ViewState {
 enum BleScannerAction: Action {
   case startScan
   case stopScan
-  case testClient
   case onScanningStatusChanged(_ result: Bool)
   case onFoundDevice(_ scanResult: ScanResult)
   case connectToDevice(_ peripheral: CBPeripheral)

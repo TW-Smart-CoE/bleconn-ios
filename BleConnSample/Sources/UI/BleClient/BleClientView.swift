@@ -3,42 +3,24 @@ import SwiftUI
 import BleConn
 
 struct BleClientView: View {
-  @State private var isConnected: Bool = false
-  @State private var mtu: Int = 0
-  @State private var notification: String = ""
+  @ObservedObject var viewModel: BleClientViewModel
 
   var body: some View {
     VStack(spacing: 16) {
-      Text("BleClient")
-        .font(.title)
-        .padding(.top, 8)
-
-      Text("isConnected: \(isConnected)")
+      Text("isConnected: \(viewModel.viewState.isConnected)")
         .font(.subheadline)
 
-      Text("MTU: \(mtu)")
+      Text("MTU: \(viewModel.viewState.mtu)")
         .font(.subheadline)
 
       Button(action: {
-        // Discover services action
       }) {
         Text("Discover Services")
           .frame(maxWidth: .infinity)
       }
       .buttonStyle(.borderedProminent)
 
-      HStack {
-        TextField("Request MTU", value: $mtu, formatter: NumberFormatter())
-          .textFieldStyle(.roundedBorder)
-          .keyboardType(.numberPad)
-
-        Button(action: {
-          // Request MTU action
-        }) {
-          Text("Request MTU")
-        }
-        .buttonStyle(.borderedProminent)
-      }
+      requestMtuView
 
       Button(action: {
         // Read device info action
@@ -56,28 +38,23 @@ struct BleClientView: View {
       }
       .buttonStyle(.borderedProminent)
 
-      Button(action: {
-        // Enable notification action
-      }) {
-        Text("Enable Notification")
-          .frame(maxWidth: .infinity)
-      }
-      .buttonStyle(.borderedProminent)
-
-      Button(action: {
-        // Disable notification action
-      }) {
-        Text("Disable Notification")
-          .frame(maxWidth: .infinity)
-      }
-      .buttonStyle(.borderedProminent)
-
-      Text("Notification: \(notification)")
-        .font(.subheadline)
-
       Spacer()
     }
     .padding()
     .navigationTitle("BleClient")
+  }
+
+  private var requestMtuView: some View {
+    HStack {
+      TextField("Request MTU", value: $viewModel.viewState.requestMtu, formatter: NumberFormatter())
+        .textFieldStyle(.roundedBorder)
+        .keyboardType(.numberPad)
+
+      Button(action: {
+      }) {
+        Text("Request MTU")
+      }
+      .buttonStyle(.borderedProminent)
+    }
   }
 }

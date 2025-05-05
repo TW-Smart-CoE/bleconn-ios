@@ -3,7 +3,7 @@ import SwiftUI
 enum AppRoute: Hashable {
   case bleScanner
   case bleServer
-  case bleClient
+  case bleClient(peripheralId: UUID)
 }
 
 class Router: ObservableObject {

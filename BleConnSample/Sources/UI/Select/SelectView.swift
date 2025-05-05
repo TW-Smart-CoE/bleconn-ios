@@ -18,8 +18,8 @@ struct SelectView: View {
           AnyView(BleScannerView(viewModel: .init(dependency: dependency, router: router)))
         case .bleServer:
           AnyView(BleServerView())
-        case .bleClient:
-          AnyView(BleClientView())
+        case .bleClient(let peripheralId):
+          AnyView(BleClientView(viewModel: .init(dependency: dependency, peripheralId: peripheralId)))
         }
       }
       .navigationTitle("BleConn")
