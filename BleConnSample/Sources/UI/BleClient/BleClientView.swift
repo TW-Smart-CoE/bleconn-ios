@@ -13,35 +13,44 @@ struct BleClientView: View {
       Text("MTU: \(viewModel.viewState.mtu)")
         .font(.subheadline)
 
-      Button(action: {
-      }) {
-        Text("Discover Services")
-          .frame(maxWidth: .infinity)
-      }
-      .buttonStyle(.borderedProminent)
-
+      discoverServicesButton
       requestMtuView
-
-      Button(action: {
-        // Read device info action
-      }) {
-        Text("Read Device Info")
-          .frame(maxWidth: .infinity)
-      }
-      .buttonStyle(.borderedProminent)
-
-      Button(action: {
-        // Write WiFi config action
-      }) {
-        Text("Write WiFi Config")
-          .frame(maxWidth: .infinity)
-      }
-      .buttonStyle(.borderedProminent)
+      readDeviceInfoButton
+      writeWiFiConfigButton
 
       Spacer()
     }
     .padding()
     .navigationTitle("BleClient")
+  }
+
+  private var discoverServicesButton: some View {
+    Button(action: {
+    }) {
+      Text("Discover Services")
+        .frame(maxWidth: .infinity)
+    }
+    .buttonStyle(.borderedProminent)
+  }
+
+  private var readDeviceInfoButton: some View {
+    Button(action: {
+      // Read device info action
+    }) {
+      Text("Read Device Info")
+        .frame(maxWidth: .infinity)
+    }
+    .buttonStyle(.borderedProminent)
+  }
+
+  private var writeWiFiConfigButton: some View {
+    Button(action: {
+      // Write WiFi config action
+    }) {
+      Text("Write WiFi Config")
+        .frame(maxWidth: .infinity)
+    }
+    .buttonStyle(.borderedProminent)
   }
 
   private var requestMtuView: some View {
