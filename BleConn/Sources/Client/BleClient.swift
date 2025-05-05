@@ -97,6 +97,23 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     return true
   }
 
+  public func connect(
+    to deviceId: UUID,
+    onConnectStateChanged: @escaping (Bool) -> Void,
+    callback: @escaping (Result) -> Void
+  ) -> Bool {
+    print("connect to deviceId: \(deviceId)")
+    guard let device = centralManager.retrievePeripherals(withIdentifiers: [deviceId]).first else {
+      let errorMessage = "Device not found."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(Result(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    print("connect to device: \(device)")
+    return connect(to: device, onConnectStateChanged: onConnectStateChanged, callback: callback)
+  }
+
   public func disconnect() {
     if let peripheral = connectedPeripheral {
       centralManager.cancelPeripheralConnection(peripheral)

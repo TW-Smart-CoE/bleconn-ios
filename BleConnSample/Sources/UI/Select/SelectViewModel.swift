@@ -16,6 +16,7 @@ class SelectViewModel: MVIViewModel {
   ) {
     self.viewState = initialState
     self.router = router
+    print("SelectViewModel initialized")
   }
 
   func reduce(currentState: SelectState, action: SelectAction) -> SelectState {

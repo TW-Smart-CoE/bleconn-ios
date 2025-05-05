@@ -24,6 +24,7 @@ class BleScannerViewModel: MVIViewModel {
     self.logger = dependency.logger
     self.bleClient = dependency.bleClient
     self.router = router
+    print("BleScannerViewModel initialized")
   }
 
   func reduce(currentState: BleScannerState, action: BleScannerAction) -> BleScannerState {
@@ -55,7 +56,6 @@ class BleScannerViewModel: MVIViewModel {
     case let .connectToDevice(peripheral):
       stopScan()
       logger.debug(tag: TAG, message: "Connecting to device: \(peripheral.name ?? "Unknown")")
-      print("Current path: \(router.path)")
       router.navigate(to: AppRoute.bleClient(peripheralId: peripheral.identifier))
     default:
       break

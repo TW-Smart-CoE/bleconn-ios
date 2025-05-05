@@ -22,6 +22,9 @@ class BleClientViewModel: MVIViewModel {
     self.viewState = initialState
     self.logger = dependency.logger
     self.bleClient = dependency.bleClient
+
+    print("BleClientViewModel initialized")
+    connectToPeripheral(peripheralId: peripheralId)
   }
 
   func reduce(currentState: BleClientState, action: BleClientAction) -> BleClientState {
@@ -45,5 +48,25 @@ class BleClientViewModel: MVIViewModel {
   }
 
   func runSideEffect(action: BleClientAction, currentState: BleClientState) {
+  }
+
+  private func connectToPeripheral(peripheralId: UUID) {
+    bleClient.connect(
+      to: peripheralId,
+      onConnectStateChanged: { isConnected in
+        DispatchQueue.main.async {
+          self.viewState.isConnected = isConnected
+        }
+      },
+      callback: { result in
+        DispatchQueue.main.async {
+          if result.isSuccess {
+            self.logger.debug(tag: self.TAG, message: "Successfully connected to peripheral.")
+          } else {
+            self.logger.error(tag: self.TAG, message: "Failed to connect: \(result.errorMessage)")
+          }
+        }
+      }
+    )
   }
 }
