@@ -43,7 +43,7 @@ struct BleClientView: View {
 
   private var readDeviceInfoButton: some View {
     Button(action: {
-      // Read device info action
+      viewModel.dispatch(action: .readDeviceInfo)
     }) {
       Text("Read Device Info")
         .frame(maxWidth: .infinity)

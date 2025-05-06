@@ -50,6 +50,8 @@ class BleClientViewModel: MVIViewModel {
     switch action {
     case .disconnect:
       bleClient.disconnect()
+    case .readDeviceInfo:
+      readDeviceInfo()
     default:
       break
     }
@@ -73,6 +75,27 @@ class BleClientViewModel: MVIViewModel {
         }
       }
     )
+
     logger.debug(tag: TAG, message: "connectToPeripheral bleClient.connect result: \(result)")
+  }
+
+  private func readDeviceInfo() {
+    let result = bleClient.readCharacteristic(
+      serviceUUID: BleUUID.SERVICE,
+      characteristicUUID: BleUUID.CHARACTERISTIC_DEVICE_INFO
+    ) { result in
+      DispatchQueue.main.async {
+        if result.isSuccess {
+          let message = "Device info: \(String(data: result.value, encoding: .utf8) ?? "")"
+          self.logger.debug(tag: self.TAG, message: message)
+          // sendEvent(BleClientEvent.ShowToast(message))
+        } else {
+          self.logger.error(tag: self.TAG, message: result.errorMessage)
+          // sendEvent(BleClientEvent.ShowToast("Failed to read device info"))
+        }
+      }
+    }
+
+    logger.debug(tag: TAG, message: "readDeviceInfo bleClient.readCharacteristic result: \(result)")
   }
 }
