@@ -28,8 +28,10 @@ class BleClientViewModel: MVIViewModel {
 
   func reduce(currentState: BleClientState, action: BleClientAction) -> BleClientState {
     var newState = currentState
-    //    switch action {
-    //    case let .onScanningStatusChanged(result):
+        switch action {
+          case let .connectStatusChanged(isConnected):
+            newState.isConnected = isConnected
+//        case let .onScanningStatusChanged(result):
     //      newState.isScanning = result
     //      if !result {
     //        newState.scanResults = []
@@ -39,9 +41,9 @@ class BleClientViewModel: MVIViewModel {
     //    case .stopScan:
     //      newState.isScanning = false
     //      newState.scanResults = []
-    //    default:
-    //      break
-    //    }
+        default:
+          break
+        }
 
     return newState
   }
@@ -50,6 +52,10 @@ class BleClientViewModel: MVIViewModel {
     switch action {
     case .disconnect:
       bleClient.disconnect()
+//    case let .connectStatusChanged(isConnected):
+//      discoverServices(isConnected: isConnected)
+    case .discoverServices:
+      discoverServices(isConnected: currentState.isConnected)
     case .readDeviceInfo:
       readDeviceInfo()
     default:
@@ -62,7 +68,7 @@ class BleClientViewModel: MVIViewModel {
       to: peripheralId,
       onConnectStateChanged: { isConnected in
         DispatchQueue.main.async {
-          self.viewState.isConnected = isConnected
+          self.dispatch(action: .connectStatusChanged(isConnected: isConnected))
         }
       },
       callback: { result in
@@ -97,5 +103,24 @@ class BleClientViewModel: MVIViewModel {
     }
 
     logger.debug(tag: TAG, message: "readDeviceInfo bleClient.readCharacteristic result: \(result)")
+  }
+
+  private func discoverServices(isConnected: Bool) {
+    if isConnected {
+      let result = bleClient.discoverServices { result in
+        DispatchQueue.main.async {
+          if !result.isSuccess {
+            self.logger.error(tag: self.TAG, message: result.errorMessage)
+          }
+          self.dispatch(action: .onServicesDiscovered(services: result.services.filter {
+            $0.uuid == BleUUID.SERVICE
+          }))
+        }
+      }
+
+      logger.debug(tag: TAG, message: "discoverServices bleClient.discoverServices result: \(result)")
+    } else {
+      dispatch(action: .onServicesDiscovered(services: []))
+    }
   }
 }

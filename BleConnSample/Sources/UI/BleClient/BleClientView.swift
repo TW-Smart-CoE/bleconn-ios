@@ -33,6 +33,7 @@ struct BleClientView: View {
 
   private var discoverServicesButton: some View {
     Button(action: {
+      viewModel.dispatch(action: .discoverServices)
     }) {
       Text("Discover Services")
         .frame(maxWidth: .infinity)

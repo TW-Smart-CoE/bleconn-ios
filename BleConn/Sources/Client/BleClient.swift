@@ -145,32 +145,32 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
   }
 
   public func requestMtu(_ mtu: Int, callback: @escaping (MtuResult) -> Void) -> Bool {
-     guard let connectedPeripheral = connectedPeripheral else {
-       let errorMessage = "No connected peripheral."
-       logger.error(tag: TAG, message: errorMessage)
-       callback(MtuResult(isSuccess: false, errorMessage: errorMessage))
-       return false
-     }
+    guard let connectedPeripheral = connectedPeripheral else {
+      let errorMessage = "No connected peripheral."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(MtuResult(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
 
-     guard !requestMtuCallback.isSet() else {
-       let errorMessage = "Another request MTU is in progress."
-       logger.error(tag: TAG, message: errorMessage)
-       callback(MtuResult(isSuccess: false, errorMessage: errorMessage))
-       return false
-     }
+    guard !requestMtuCallback.isSet() else {
+      let errorMessage = "Another request MTU is in progress."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(MtuResult(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
 
-     requestMtuCallback.set(callback: callback)
+    requestMtuCallback.set(callback: callback)
 
-//     connectedPeripheral.setNotifyValue(true, for: CBMutableCharacteristic()) // Placeholder for actual MTU request logic
-//    connectedPeripheral.setNotifyValue(<#T##enabled: Bool##Bool#>, for: <#T##CBCharacteristic#>)
+    //     connectedPeripheral.setNotifyValue(true, for: CBMutableCharacteristic()) // Placeholder for actual MTU request logic
+    //    connectedPeripheral.setNotifyValue(<#T##enabled: Bool##Bool#>, for: <#T##CBCharacteristic#>)
 
-     // Simulate success for now
-//     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//       self.requestMtuCallback.resolve(MtuResult(isSuccess: true, mtu: mtu))
-//     }
+    // Simulate success for now
+    //     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+    //       self.requestMtuCallback.resolve(MtuResult(isSuccess: true, mtu: mtu))
+    //     }
 
-     return true
-   }
+    return true
+  }
 
   public func readCharacteristic(
     serviceUUID: CBUUID,
