@@ -102,7 +102,6 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     onConnectStateChanged: @escaping (Bool) -> Void,
     callback: @escaping (Result) -> Void
   ) -> Bool {
-    print("connect to deviceId: \(deviceId)")
     guard let device = centralManager.retrievePeripherals(withIdentifiers: [deviceId]).first else {
       let errorMessage = "Device not found."
       logger.error(tag: TAG, message: errorMessage)
@@ -110,7 +109,6 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
       return false
     }
 
-    print("connect to device: \(device)")
     return connect(to: device, onConnectStateChanged: onConnectStateChanged, callback: callback)
   }
 
@@ -146,15 +144,18 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
   public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
     connectedPeripheral = peripheral
     onConnectStateChanged?(true)
+    connectCallback.resolve(result: Result(isSuccess: true))
   }
 
   public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
     connectedPeripheral = nil
     onConnectStateChanged?(false)
+    connectCallback.resolve(result: Result(isSuccess: false, errorMessage: error?.localizedDescription ?? ""))
   }
 
   public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
     onConnectStateChanged?(false)
+    connectCallback.resolve(result: Result(isSuccess: false, errorMessage: error?.localizedDescription ?? ""))
   }
 
   private func startCallbackCheckLoop() {

@@ -20,4 +20,5 @@ enum BleClientAction: Action {
   case onMtuUpdated(mtu: Int)
   case onNotification(notification: String)
   case updateRequestMtu(number: Int)
+  case disconnect
 }

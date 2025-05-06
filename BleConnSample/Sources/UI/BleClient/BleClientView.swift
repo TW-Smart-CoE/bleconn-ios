@@ -26,6 +26,9 @@ struct BleClientView: View {
     }
     .padding()
     .navigationTitle("BleClient")
+    .onDisappear {
+      viewModel.dispatch(action: .disconnect)
+    }
   }
 
   private var discoverServicesButton: some View {

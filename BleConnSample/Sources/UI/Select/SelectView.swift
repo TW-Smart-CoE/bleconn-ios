@@ -26,7 +26,6 @@ struct SelectView: View {
   private func destinationView(for route: AppRoute) -> AnyView {
     switch route {
     case .bleScanner:
-      print("Navigating to BleScannerView")
       return AnyView(BleScannerView(dependency: dependency, router: router))
     case .bleServer:
       return AnyView(BleServerView())

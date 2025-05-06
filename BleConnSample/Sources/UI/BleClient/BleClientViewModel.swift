@@ -23,7 +23,6 @@ class BleClientViewModel: MVIViewModel {
     self.logger = dependency.logger
     self.bleClient = dependency.bleClient
 
-    print("BleClientViewModel initialized")
     connectToPeripheral(peripheralId: peripheralId)
   }
 
@@ -48,6 +47,12 @@ class BleClientViewModel: MVIViewModel {
   }
 
   func runSideEffect(action: BleClientAction, currentState: BleClientState) {
+    switch action {
+    case .disconnect:
+      bleClient.disconnect()
+    default:
+      break
+    }
   }
 
   private func connectToPeripheral(peripheralId: UUID) {

@@ -16,7 +16,6 @@ class SelectViewModel: MVIViewModel {
   ) {
     self.viewState = initialState
     self.router = router
-    print("SelectViewModel initialized")
   }
 
   func reduce(currentState: SelectState, action: SelectAction) -> SelectState {
@@ -29,7 +28,6 @@ class SelectViewModel: MVIViewModel {
       router.navigate(to: AppRoute.bleServer)
       break
     case .clickBleScanner:
-      print("clickBleScanner")
       router.navigate(to: AppRoute.bleScanner)
     }
   }

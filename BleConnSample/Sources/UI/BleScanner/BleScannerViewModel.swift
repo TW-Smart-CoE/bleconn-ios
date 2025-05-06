@@ -24,7 +24,6 @@ class BleScannerViewModel: MVIViewModel {
     self.logger = dependency.logger
     self.bleClient = dependency.bleClient
     self.router = router
-    print("BleScannerViewModel initialized")
   }
 
   func reduce(currentState: BleScannerState, action: BleScannerAction) -> BleScannerState {
