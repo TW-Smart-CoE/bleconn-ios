@@ -14,6 +14,7 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
   private var connectCallback: CallbackHolder<Result>
   private var discoverServicesCallback: CallbackHolder<DiscoverServicesResult>
   private var requestMtuCallback: CallbackHolder<MtuResult>
+  private var readCallback: CallbackHolder<ReadResult>
 
   private func initializeCentralManager(queue: DispatchQueue?) {
     centralManager = CBCentralManager(delegate: self, queue: queue)
@@ -26,6 +27,7 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     connectCallback = .init(timeout: TimeInterval(connectTimeout))
     discoverServicesCallback = .init(timeout: TimeInterval(requestTimeout))
     requestMtuCallback = .init(timeout: TimeInterval(requestTimeout))
+    readCallback = .init(timeout: TimeInterval(requestTimeout))
 
     super.init()
     initializeCentralManager(queue: nil)
@@ -41,6 +43,7 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     connectCallback = .init(timeout: connectTimeout)
     discoverServicesCallback = .init(timeout: requestTimeout)
     requestMtuCallback = .init(timeout: requestTimeout)
+    readCallback = .init(timeout: requestTimeout)
 
     super.init()
     initializeCentralManager(queue: queue)
@@ -168,6 +171,63 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
 
      return true
    }
+
+  public func readCharacteristic(
+    serviceUUID: CBUUID,
+    characteristicUUID: CBUUID,
+    callback: @escaping (ReadResult) -> Void
+  ) -> Bool {
+    guard let connectedPeripheral = connectedPeripheral else {
+      let errorMessage = "No connected peripheral."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(ReadResult(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    guard !readCallback.isSet() else {
+      let errorMessage = "Another read characteristic is in progress."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(ReadResult(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    guard let service = connectedPeripheral.services?.first(where: { $0.uuid == serviceUUID }) else {
+      let errorMessage = "Service with UUID \(serviceUUID) not found."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(ReadResult(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    guard let characteristic = service.characteristics?.first(where: { $0.uuid == characteristicUUID }) else {
+      let errorMessage = "Characteristic with UUID \(characteristicUUID) not found."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(ReadResult(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    readCallback.set(callback: callback)
+    connectedPeripheral.readValue(for: characteristic)
+    return true
+  }
+
+  public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+    if let error = error {
+      let errorMessage = "Characteristic read failed: \(error.localizedDescription)"
+      logger.error(tag: TAG, message: errorMessage)
+      readCallback.resolve(result: ReadResult(isSuccess: false, errorMessage: errorMessage))
+      return
+    }
+
+    guard let value = characteristic.value else {
+      let errorMessage = "Characteristic value is nil."
+      logger.error(tag: TAG, message: errorMessage)
+      readCallback.resolve(result: ReadResult(isSuccess: false, errorMessage: errorMessage))
+      return
+    }
+
+    logger.debug(tag: TAG, message: "Characteristic read successfully.")
+    readCallback.resolve(result: ReadResult(isSuccess: true, value: value))
+  }
 
   public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
     connectedPeripheral = peripheral
