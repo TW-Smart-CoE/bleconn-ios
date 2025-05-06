@@ -246,6 +246,52 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     connectCallback.resolve(result: Result(isSuccess: false, errorMessage: error?.localizedDescription ?? ""))
   }
 
+  public func discoverServices(callback: @escaping (DiscoverServicesResult) -> Void) -> Bool {
+    guard let connectedPeripheral = connectedPeripheral else {
+      let errorMessage = "No connected peripheral."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(DiscoverServicesResult(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    guard !discoverServicesCallback.isSet() else {
+      let errorMessage = "Another discover services is in progress."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(DiscoverServicesResult(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    discoverServicesCallback.set(callback: callback)
+    connectedPeripheral.discoverServices(nil)
+    return true
+  }
+
+  public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+    if let error = error {
+      let errorMessage = "Failed to discover services: \(error.localizedDescription)"
+      logger.error(tag: TAG, message: errorMessage)
+      discoverServicesCallback.resolve(result: DiscoverServicesResult(isSuccess: false, errorMessage: errorMessage))
+      return
+    }
+
+    guard let services = peripheral.services else {
+      let errorMessage = "No services found."
+      logger.error(tag: TAG, message: errorMessage)
+      discoverServicesCallback.resolve(result: DiscoverServicesResult(isSuccess: false, errorMessage: errorMessage))
+      return
+    }
+
+    logger.debug(tag: TAG, message: "GATT services discovered.")
+    services.forEach { service in
+      logger.debug(tag: TAG, message: "Service: \(service.uuid)")
+      service.characteristics?.forEach { characteristic in
+        logger.debug(tag: TAG, message: "Characteristic: \(characteristic.uuid)")
+      }
+    }
+
+    discoverServicesCallback.resolve(result: DiscoverServicesResult(isSuccess: true, services: services))
+  }
+
   private func startCallbackCheckLoop() {
   }
 
