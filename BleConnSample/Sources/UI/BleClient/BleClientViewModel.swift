@@ -56,7 +56,7 @@ class BleClientViewModel: MVIViewModel {
   }
 
   private func connectToPeripheral(peripheralId: UUID) {
-    bleClient.connect(
+    let result = bleClient.connect(
       to: peripheralId,
       onConnectStateChanged: { isConnected in
         DispatchQueue.main.async {
@@ -73,5 +73,6 @@ class BleClientViewModel: MVIViewModel {
         }
       }
     )
+    logger.debug(tag: TAG, message: "connectToPeripheral bleClient.connect result: \(result)")
   }
 }
