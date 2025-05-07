@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct SelectView: View {
-  @EnvironmentObject var dependency: DependencyImpl
-  @EnvironmentObject var router: Router
-  @StateObject var viewModel: SelectViewModel
+  @EnvironmentObject private var dependency: DependencyImpl
+  @EnvironmentObject private var router: Router
+  @StateObject private var viewModel: SelectViewModel
 
   init(dependency: Dependency, router: Router) {
     _viewModel = StateObject(wrappedValue: SelectViewModel(dependency: dependency, router: router))

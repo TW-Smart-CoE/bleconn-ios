@@ -2,7 +2,7 @@ import SwiftUI
 import BleConn
 
 struct BleScannerView: View {
-  @StateObject var viewModel: BleScannerViewModel
+  @StateObject private var viewModel: BleScannerViewModel
 
   init(dependency: Dependency, router: Router) {
     _viewModel = StateObject(wrappedValue: BleScannerViewModel(dependency: dependency, router: router))

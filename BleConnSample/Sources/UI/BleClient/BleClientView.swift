@@ -3,7 +3,7 @@ import SwiftUI
 import BleConn
 
 struct BleClientView: View {
-  @StateObject var viewModel: BleClientViewModel
+  @StateObject private var viewModel: BleClientViewModel
 
   init(dependency: Dependency, peripheralId: UUID) {
     _viewModel = StateObject(wrappedValue: BleClientViewModel(dependency: dependency, peripheralId: peripheralId))
