@@ -52,8 +52,8 @@ class BleClientViewModel: MVIViewModel {
     switch action {
     case .disconnect:
       bleClient.disconnect()
-//    case let .connectStatusChanged(isConnected):
-//      discoverServices(isConnected: isConnected)
+    case let .connectStatusChanged(isConnected):
+      discoverServices(isConnected: isConnected)
     case .discoverServices:
       discoverServices(isConnected: currentState.isConnected)
     case .readDeviceInfo:
@@ -107,7 +107,7 @@ class BleClientViewModel: MVIViewModel {
 
   private func discoverServices(isConnected: Bool) {
     if isConnected {
-      let result = bleClient.discoverServices { result in
+      let result = bleClient.discoverServices(serviceUUIDs: [BleUUID.SERVICE]) { result in
         DispatchQueue.main.async {
           if !result.isSuccess {
             self.logger.error(tag: self.TAG, message: result.errorMessage)

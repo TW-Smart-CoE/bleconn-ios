@@ -231,6 +231,7 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
 
   public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
     connectedPeripheral = peripheral
+    connectedPeripheral?.delegate = self
     onConnectStateChanged?(true)
     connectCallback.resolve(result: Result(isSuccess: true))
   }
@@ -246,7 +247,7 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     connectCallback.resolve(result: Result(isSuccess: false, errorMessage: error?.localizedDescription ?? ""))
   }
 
-  public func discoverServices(callback: @escaping (DiscoverServicesResult) -> Void) -> Bool {
+  public func discoverServices(serviceUUIDs: [CBUUID]?, callback: @escaping (DiscoverServicesResult) -> Void) -> Bool {
     guard let connectedPeripheral = connectedPeripheral else {
       let errorMessage = "No connected peripheral."
       logger.error(tag: TAG, message: errorMessage)
@@ -262,7 +263,7 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     }
 
     discoverServicesCallback.set(callback: callback)
-    connectedPeripheral.discoverServices(nil)
+    connectedPeripheral.discoverServices(serviceUUIDs)
     return true
   }
 
@@ -284,12 +285,27 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     logger.debug(tag: TAG, message: "GATT services discovered.")
     services.forEach { service in
       logger.debug(tag: TAG, message: "Service: \(service.uuid)")
-      service.characteristics?.forEach { characteristic in
-        logger.debug(tag: TAG, message: "Characteristic: \(characteristic.uuid)")
-      }
+      peripheral.discoverCharacteristics(nil, for: service)
     }
 
     discoverServicesCallback.resolve(result: DiscoverServicesResult(isSuccess: true, services: services))
+  }
+
+  public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+    if let error = error {
+      logger.error(tag: TAG, message: "Failed to discover characteristics: \(error.localizedDescription)")
+      return
+    }
+
+    guard let characteristics = service.characteristics else {
+      logger.debug(tag: TAG, message: "No characteristics found for service: \(service.uuid)")
+      return
+    }
+
+    logger.debug(tag: TAG, message: "Characteristics discovered for service: \(service.uuid)")
+    for characteristic in characteristics {
+      logger.debug(tag: TAG, message: "Characteristic: \(characteristic.uuid)")
+    }
   }
 
   private func startCallbackCheckLoop() {
