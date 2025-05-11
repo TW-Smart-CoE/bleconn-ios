@@ -15,6 +15,7 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
   private var discoverServicesCallback: CallbackHolder<DiscoverServicesResult>
   private var requestMtuCallback: CallbackHolder<MtuResult>
   private var readCallback: CallbackHolder<ReadResult>
+  private var writeCallback: CallbackHolder<Result>
 
   private func initializeCentralManager(queue: DispatchQueue?) {
     centralManager = CBCentralManager(delegate: self, queue: queue)
@@ -28,6 +29,7 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     discoverServicesCallback = .init(timeout: TimeInterval(requestTimeout))
     requestMtuCallback = .init(timeout: TimeInterval(requestTimeout))
     readCallback = .init(timeout: TimeInterval(requestTimeout))
+    writeCallback = .init(timeout: TimeInterval(requestTimeout))
 
     super.init()
     initializeCentralManager(queue: nil)
@@ -44,6 +46,7 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     discoverServicesCallback = .init(timeout: requestTimeout)
     requestMtuCallback = .init(timeout: requestTimeout)
     readCallback = .init(timeout: requestTimeout)
+    writeCallback = .init(timeout: requestTimeout)
 
     super.init()
     initializeCentralManager(queue: queue)
@@ -210,6 +213,50 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     return true
   }
 
+  public func writeCharacteristic(
+    serviceUUID: CBUUID,
+    characteristicUUID: CBUUID,
+    value: Data,
+    type: CBCharacteristicWriteType = .withResponse,
+    callback: @escaping (Result) -> Void
+  ) -> Bool {
+    guard let connectedPeripheral = connectedPeripheral else {
+      let errorMessage = "No connected peripheral."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(Result(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    guard !writeCallback.isSet() else {
+      let errorMessage = "Another write characteristic is in progress."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(Result(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    guard let service = connectedPeripheral.services?.first(where: { $0.uuid == serviceUUID }) else {
+      let errorMessage = "Service with UUID \(serviceUUID) not found."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(Result(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    guard let characteristic = service.characteristics?.first(where: { $0.uuid == characteristicUUID }) else {
+      let errorMessage = "Characteristic with UUID \(characteristicUUID) not found."
+      logger.error(tag: TAG, message: errorMessage)
+      callback(Result(isSuccess: false, errorMessage: errorMessage))
+      return false
+    }
+
+    writeCallback.set(callback: callback)
+    connectedPeripheral.writeValue(value, for: characteristic, type: type)
+    if type == .withoutResponse {
+      writeCallback.resolve(result: Result(isSuccess: true))
+    }
+
+    return true
+  }
+
   public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
     if let error = error {
       let errorMessage = "Characteristic read failed: \(error.localizedDescription)"
@@ -227,6 +274,17 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
 
     logger.debug(tag: TAG, message: "Characteristic read successfully.")
     readCallback.resolve(result: ReadResult(isSuccess: true, value: value))
+  }
+
+  public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+    if let error = error {
+      let errorMessage = "Characteristic write failed: \(error.localizedDescription)"
+      logger.error(tag: TAG, message: errorMessage)
+      writeCallback.resolve(result: Result(isSuccess: false, errorMessage: errorMessage))
+      return
+    }
+    logger.debug(tag: TAG, message: "Characteristic written successfully.")
+    writeCallback.resolve(result: Result(isSuccess: true))
   }
 
   public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {

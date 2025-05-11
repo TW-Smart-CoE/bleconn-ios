@@ -50,6 +50,8 @@ class BleClientViewModel: MVIViewModel {
       discoverServices(isConnected: currentState.isConnected)
     case .readDeviceInfo:
       readDeviceInfo()
+    case let .writeWiFiConfig(ssid, password):
+      writeWifiInfo(ssid: ssid, password: password)
     default:
       break
     }
@@ -95,6 +97,28 @@ class BleClientViewModel: MVIViewModel {
     }
 
     logger.debug(tag: TAG, message: "readDeviceInfo bleClient.readCharacteristic result: \(result)")
+  }
+
+  private func writeWifiInfo(ssid: String, password: String) {
+    let result = bleClient.writeCharacteristic(
+      serviceUUID: BleUUID.SERVICE,
+      characteristicUUID: BleUUID.CHARACTERISTIC_WIFI,
+      value: "\(ssid);\(password)".data(using: .utf8) ?? Data(),
+      type: .withResponse
+    ) { result in
+      DispatchQueue.main.async {
+        if result.isSuccess {
+          let message = "Write WiFi config successfully"
+          self.logger.debug(tag: self.TAG, message: message)
+          self.showToast(message: message)
+        } else {
+          self.logger.error(tag: self.TAG, message: result.errorMessage)
+          self.showToast(message: result.errorMessage)
+        }
+      }
+    }
+
+    logger.debug(tag: TAG, message: "writeWifiInfo bleClient.writeCharacteristic result: \(result)")
   }
 
   private func discoverServices(isConnected: Bool) {

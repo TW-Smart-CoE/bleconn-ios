@@ -61,7 +61,7 @@ struct BleClientView: View {
 
   private var writeWiFiConfigButton: some View {
     Button(action: {
-      // Write WiFi config action
+      viewModel.dispatch(action: .writeWiFiConfig(ssid: "ssid", password: "password"))
     }) {
       Text("Write WiFi Config")
         .frame(maxWidth: .infinity)
