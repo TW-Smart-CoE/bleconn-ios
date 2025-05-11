@@ -131,6 +131,7 @@ class BleClientViewModel: MVIViewModel {
           self.dispatch(action: .onServicesDiscovered(services: result.services.filter {
             $0.uuid == BleUUID.SERVICE
           }))
+          self.showToast(message: "Found \(result.services.count) services")
         }
       }
 

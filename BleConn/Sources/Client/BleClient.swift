@@ -13,9 +13,9 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
   private var onFound: ((ScanResult) -> Void)?
   private var connectCallback: CallbackHolder<Result>
   private var discoverServicesCallback: CallbackHolder<DiscoverServicesResult>
-  private var requestMtuCallback: CallbackHolder<MtuResult>
   private var readCallback: CallbackHolder<ReadResult>
   private var writeCallback: CallbackHolder<Result>
+  private var callbackCheckTimer: Timer?
 
   private func initializeCentralManager(queue: DispatchQueue?) {
     centralManager = CBCentralManager(delegate: self, queue: queue)
@@ -24,13 +24,10 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
   public override init() {
     let connectTimeout = 5000
     let requestTimeout = 3000
-
-    connectCallback = .init(timeout: TimeInterval(connectTimeout))
-    discoverServicesCallback = .init(timeout: TimeInterval(requestTimeout))
-    requestMtuCallback = .init(timeout: TimeInterval(requestTimeout))
-    readCallback = .init(timeout: TimeInterval(requestTimeout))
-    writeCallback = .init(timeout: TimeInterval(requestTimeout))
-
+    connectCallback = CallbackHolder<Result>(timeout: TimeInterval(connectTimeout))
+    discoverServicesCallback = CallbackHolder<DiscoverServicesResult>(timeout: TimeInterval(requestTimeout))
+    readCallback = CallbackHolder<ReadResult>(timeout: TimeInterval(requestTimeout))
+    writeCallback = CallbackHolder<Result>(timeout: TimeInterval(requestTimeout))
     super.init()
     initializeCentralManager(queue: nil)
   }
@@ -42,12 +39,10 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     queue: DispatchQueue? = nil
   ) {
     self.logger = logger
-    connectCallback = .init(timeout: connectTimeout)
-    discoverServicesCallback = .init(timeout: requestTimeout)
-    requestMtuCallback = .init(timeout: requestTimeout)
-    readCallback = .init(timeout: requestTimeout)
-    writeCallback = .init(timeout: requestTimeout)
-
+    connectCallback = CallbackHolder<Result>(timeout: connectTimeout)
+    discoverServicesCallback = CallbackHolder<DiscoverServicesResult>(timeout: requestTimeout)
+    readCallback = CallbackHolder<ReadResult>(timeout: requestTimeout)
+    writeCallback = CallbackHolder<Result>(timeout: requestTimeout)
     super.init()
     initializeCentralManager(queue: queue)
   }
@@ -270,11 +265,13 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     connectedPeripheral = nil
     onConnectStateChanged?(false)
     connectCallback.resolve(result: Result(isSuccess: false, errorMessage: error?.localizedDescription ?? ""))
+    stopCallbackCheckLoop()
   }
 
   public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
     onConnectStateChanged?(false)
     connectCallback.resolve(result: Result(isSuccess: false, errorMessage: error?.localizedDescription ?? ""))
+    stopCallbackCheckLoop()
   }
 
   public func discoverServices(serviceUUIDs: [CBUUID]?, callback: @escaping (DiscoverServicesResult) -> Void) -> Bool {
@@ -339,9 +336,30 @@ public class BleClient: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
   }
 
   private func startCallbackCheckLoop() {
+    logger.debug(tag: TAG, message: "startCallbackCheckLoop")
+    callbackCheckTimer?.invalidate()
+    callbackCheckTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        guard let self = self else { return }
+        if self.connectCallback.isTimeout() {
+            self.logger.debug(tag: self.TAG, message: "Connect timeout")
+            self.connectCallback.resolve(result: Result(isSuccess: false, errorMessage: "Connect timeout"))
+            self.disconnect()
+        }
+        if self.discoverServicesCallback.isTimeout() {
+            self.discoverServicesCallback.resolve(result: DiscoverServicesResult(isSuccess: false, errorMessage: "Discover services timeout"))
+        }
+        if self.readCallback.isTimeout() {
+            self.readCallback.resolve(result: ReadResult(isSuccess: false, errorMessage: "Read characteristic timeout"))
+        }
+        if self.writeCallback.isTimeout() {
+            self.writeCallback.resolve(result: Result(isSuccess: false, errorMessage: "Write characteristic timeout"))
+        }
+    }
   }
 
   private func stopCallbackCheckLoop() {
     logger.debug(tag: TAG, message: "stopCallbackCheckLoop")
+    callbackCheckTimer?.invalidate()
+    callbackCheckTimer = nil
   }
 }

@@ -14,11 +14,11 @@ struct BleClientView: View {
       Text("isConnected: \(viewModel.viewState.isConnected)")
         .font(.subheadline)
 
-      Text("MTU: \(viewModel.viewState.mtu)")
-        .font(.subheadline)
+//      Text("MTU: \(viewModel.viewState.mtu)")
+//        .font(.subheadline)
 
       discoverServicesButton
-      requestMtuView
+//      requestMtuView
       readDeviceInfoButton
       writeWiFiConfigButton
 
@@ -70,20 +70,20 @@ struct BleClientView: View {
     .buttonStyle(.borderedProminent)
   }
 
-  private var requestMtuView: some View {
-    HStack {
-      TextField("Request MTU", value: $viewModel.viewState.requestMtu, formatter: NumberFormatter())
-        .textFieldStyle(.roundedBorder)
-        .keyboardType(.numberPad)
-
-      Button(action: {
-      }) {
-        Text("Request MTU")
-          .padding()
-      }
-      .buttonStyle(.borderedProminent)
-    }
-  }
+//  private var requestMtuView: some View {
+//    HStack {
+//      TextField("Request MTU", value: $viewModel.viewState.requestMtu, formatter: NumberFormatter())
+//        .textFieldStyle(.roundedBorder)
+//        .keyboardType(.numberPad)
+//
+//      Button(action: {
+//      }) {
+//        Text("Request MTU")
+//          .padding()
+//      }
+//      .buttonStyle(.borderedProminent)
+//    }
+//  }
 
   private var toastView: some View {
     Group {
