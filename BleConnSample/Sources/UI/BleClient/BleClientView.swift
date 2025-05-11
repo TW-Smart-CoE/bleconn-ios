@@ -29,6 +29,7 @@ struct BleClientView: View {
     .onDisappear {
       viewModel.dispatch(action: .disconnect)
     }
+    .overlay(toastView)
   }
 
   private var discoverServicesButton: some View {
@@ -77,5 +78,19 @@ struct BleClientView: View {
       }
       .buttonStyle(.borderedProminent)
     }
+  }
+
+  private var toastView: some View {
+    Group {
+      if viewModel.viewState.toastData.isShow {
+        Text(viewModel.viewState.toastData.message)
+          .padding()
+          .background(Color.black.opacity(0.8))
+          .foregroundColor(.white)
+          .cornerRadius(8)
+          .transition(.opacity)
+      }
+    }
+    .animation(.easeInOut, value: viewModel.viewState.toastData.isShow)
   }
 }

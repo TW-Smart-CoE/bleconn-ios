@@ -1,10 +1,16 @@
 import CoreBluetooth
 
+struct ToastData: Equatable {
+  let isShow: Bool
+  let message: String
+}
+
 struct BleClientState: ViewState {
   var isConnected: Bool = false
   var mtu: String = "default"
   var services: [CBService] = []
   var requestMtu: Int = 256
+  var toastData: ToastData = .init(isShow: false, message: "")
 }
 
 enum BleClientAction: Action {
@@ -21,4 +27,5 @@ enum BleClientAction: Action {
   case onNotification(notification: String)
   case updateRequestMtu(number: Int)
   case disconnect
+  case showToast(isShow: Bool, message: String)
 }

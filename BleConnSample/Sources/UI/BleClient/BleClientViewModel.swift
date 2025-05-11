@@ -31,16 +31,8 @@ class BleClientViewModel: MVIViewModel {
         switch action {
           case let .connectStatusChanged(isConnected):
             newState.isConnected = isConnected
-//        case let .onScanningStatusChanged(result):
-    //      newState.isScanning = result
-    //      if !result {
-    //        newState.scanResults = []
-    //      }
-    //    case let .onFoundDevice(scanResult):
-    //      newState.scanResults = buildNewScanResults(currentResults: currentState.scanResults, newResult: scanResult)
-    //    case .stopScan:
-    //      newState.isScanning = false
-    //      newState.scanResults = []
+        case let .showToast(isShow, message):
+          newState.toastData = .init(isShow: isShow, message: message)
         default:
           break
         }
@@ -94,10 +86,10 @@ class BleClientViewModel: MVIViewModel {
         if result.isSuccess {
           let message = "Device info: \(String(data: result.value, encoding: .utf8) ?? "")"
           self.logger.debug(tag: self.TAG, message: message)
-          // sendEvent(BleClientEvent.ShowToast(message))
+          self.showToast(message: message)
         } else {
           self.logger.error(tag: self.TAG, message: result.errorMessage)
-          // sendEvent(BleClientEvent.ShowToast("Failed to read device info"))
+          self.showToast(message: result.errorMessage)
         }
       }
     }
@@ -121,6 +113,15 @@ class BleClientViewModel: MVIViewModel {
       logger.debug(tag: TAG, message: "discoverServices bleClient.discoverServices result: \(result)")
     } else {
       dispatch(action: .onServicesDiscovered(services: []))
+    }
+  }
+
+  private func showToast(message: String, duration: Int = 2) {
+    DispatchQueue.main.async {
+      self.dispatch(action: BleClientAction.showToast(isShow: true, message: message))
+      DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(duration)) {
+        self.dispatch(action: BleClientAction.showToast(isShow: false, message: ""))
+      }
     }
   }
 }
