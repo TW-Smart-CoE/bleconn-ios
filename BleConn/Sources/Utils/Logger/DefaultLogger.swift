@@ -1,7 +1,7 @@
 import os.log
 
 public class DefaultLogger: Logger {
-  private let log = OSLog(subsystem: "com.thoughtworks.bleconn", category: "ble-ios")
+  private let log = OSLog(subsystem: "com.jmengxy.bleconn", category: "ble-ios")
 
   public init() {}
 

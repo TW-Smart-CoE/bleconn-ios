@@ -5,7 +5,7 @@ class DependencyImpl: Dependency, ObservableObject {
   let logger: Logger
   let bleClient: BleClient
 
-  private let bluetoothQueue = DispatchQueue(label: "com.thoughtworks.bleconn")
+  private let bluetoothQueue = DispatchQueue(label: "com.jmengxy.bleconn")
 
   init() {
     self.logger = DefaultLogger()
